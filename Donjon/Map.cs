@@ -1,4 +1,5 @@
 ﻿using Donjon.Entities;
+using Donjon.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,38 +11,62 @@ namespace Donjon
         public int Width { get; }
         public int Height { get; }
         private Cell[,] cells;
+        private readonly Log log;
 
-        public List<Cell> Cells
+        //public IEnumerable<Cell> Cells
+        //{
+        //    get
+        //    {
+        //        foreach (var cell in cells)
+        //        {
+        //            yield return cell;
+        //        }
+        //    }
+        //}
+        public IEnumerable<Cell> Cells
         {
-            get {
-                List<Cell> list = new List<Cell>();
+            get
+            {
                 foreach (var cell in cells)
                 {
-                    list.Add(cell);
+                    yield return cell;
                 }
-                return list;
             }
         }
 
-        public List<Creature> Creatures
-        {
-            get {
-                var populatedCells = Cells.Where(c => c.Creature != null);
-                var creatures = populatedCells.Select(c => c.Creature);
-                var listOfCreatures = creatures.ToList();
-                return listOfCreatures;
-            }
-        }
+        //public List<Creature> Creatures
+        //{
+        //    get
+        //    {
+        //        var populatedCells = Cells.Where(c => c.Creature != null);
+        //        var creatures = populatedCells.Select(c => c.Creature);
+        //        var listOfCreatures = creatures.ToList();
+        //        return listOfCreatures;
+        //    }
+        //}
+        //public List<Creature> Creatures => Cells
+        //    .Where(c => c.Creature != null)
+        //    .Select(c => c.Creature)
+        //    .ToList();
+        public List<Creature> Creatures => Cells
+            .Where(c => c.Creature != null)
+            .Select(c => c.Creature)
+            .ToList();
 
         public List<Monster> Monsters => Creatures
             .Where(c => c is Monster)
             .Select(c => c as Monster)
+            //.OfType(M)
             .ToList();
 
-        public Map(int width, int height)
+        //public Hero Hero => Creatures.Where(cells => cells is Hero).First() as Hero;
+        public Hero Hero => Creatures.Single(c => c is Hero) as Hero;
+
+        public Map(int width, int height, Log log)
         {
             Width = width;
             Height = height;
+            this.log = log;
             cells = new Cell[width, height];
             for (int y = 0; y < height; y++)
             {
@@ -68,6 +93,7 @@ namespace Donjon
         {
             if (destination == null) return false;
             if (destination.Creature != null) return false;
+            creature.Log = log;
             creature.Position = destination.Position;
             destination.Creature = creature;
             return true;
@@ -78,9 +104,7 @@ namespace Donjon
             var creature = from?.Creature;
             if (creature == null) return false;
             if (destination == null) return false;
-
-            var opponent = destination.Creature;
-            if (opponent != null) return creature.Attack(opponent);
+            if (destination.Creature != null) return false;
 
             creature.Position = destination.Position;
             from.Creature = null;

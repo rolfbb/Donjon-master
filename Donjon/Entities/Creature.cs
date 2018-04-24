@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Donjon.Utilities;
+using System;
 
 namespace Donjon.Entities
 {
@@ -13,6 +14,8 @@ namespace Donjon.Entities
         public int Damage { get; set; }
         public bool IsDead => Health <= 0;
 
+        public Log Log { get; set; }
+
         protected Creature(string name, string symbol, ConsoleColor color)
         {
             Name = name;
@@ -20,16 +23,19 @@ namespace Donjon.Entities
             Color = color;
         }
 
-        public bool Attack(Creature opponent) {
+        public virtual bool Attack(Creature opponent) {
             if (opponent.IsDead) return false;
-            opponent.Health -= Damage;
-
-            if (opponent is Monster)
-            {
-                (opponent as Monster).IsAggressive = true;
-            }
+            Log.Add($"The {Name} attacks the {opponent.Name} ({opponent.Health})");
+            opponent.Defend(Damage);
             return true;
         }
 
+        protected virtual void Defend(int damage)
+        {
+            Health -= damage;
+            string message = $"The {Name} takes {damage} damage";
+            if (IsDead) message += "( and dies)";
+            Log.Add(message);
+        }
     }
 }

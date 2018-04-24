@@ -32,5 +32,11 @@ namespace Donjon.Entities
             if (Math.Abs(dx) > 1 || Math.Abs(dy) > 1) return false;
             return Attack(hero);            
         }
+
+        protected override void Defend(int damage)
+        {
+            base.Defend(damage);
+            IsAggressive = true;
+        }
     }
 }
