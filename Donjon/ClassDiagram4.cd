@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Donjon.Cell">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIACAAgAAAAAAQgAAAAAAAAAAAAgAAACAA=</HashCode>
+      <FileName>Cell.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Donjon.Direction">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhCIAAA=</HashCode>
+      <FileName>Direction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Donjon.Game">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAECAAAECQAgAAAAAACAAAAAIAAAABAAACAgEAAAI=</HashCode>
+      <FileName>Game.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Donjon.Map">
+    <Position X="7" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAABIAAAABAAAJACEAiAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Map.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Donjon.Program">
+    <Position X="9.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Donjon.Entities.Creature">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACACAAAAACAAgAAAAEAQAAIgAAAAAAAAAgAAASAA=</HashCode>
+      <FileName>Entities\Creature.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Donjon.Entities.Goblin">
+    <Position X="3" Y="7.5" Width="1.5" />
+    <InheritanceLine Type="Donjon.Entities.Monster" FixedToPoint="true">
+      <Path>
+        <Point X="4" Y="7.011" />
+        <Point X="4" Y="7.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Goblin.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Donjon.Entities.Hero">
+    <Position X="0.75" Y="5" Width="1.5" />
+    <InheritanceLine Type="Donjon.Entities.Creature" FixedToPoint="true">
+      <Path>
+        <Point X="2.5" Y="3.978" />
+        <Point X="2.5" Y="4.625" />
+        <Point X="1.562" Y="4.625" />
+        <Point X="1.562" Y="5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Hero.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Donjon.Entities.Monster">
+    <Position X="3.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAgAAAQAQ=</HashCode>
+      <FileName>Entities\Monster.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Donjon.Utilities.Log">
+    <Position X="5.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAIAAAAAAAAAAAAAAAAAAAAAAAABAgAAAABAAAA=</HashCode>
+      <FileName>Utilities\Log.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Donjon.Position">
+    <Position X="5.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAA=</HashCode>
+      <FileName>Position.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

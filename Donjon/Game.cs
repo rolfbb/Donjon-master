@@ -1,7 +1,10 @@
 ﻿using Donjon.Entities;
 using Donjon.Utilities;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
+//TODO: Move-method i Creatture m ref till map i (beräknar hur monstret ska röra på sig
 namespace Donjon
 {
     internal class Game
@@ -49,6 +52,8 @@ namespace Donjon
             var acted = false;
             do
             {
+                //TODO: Göra om till Dictionary, key/method
+                //Set a flag to check whether something is changed (also for part of window)
                 var key = Console.ReadKey(intercept: true).Key;
                 switch (key)
                 {
@@ -56,9 +61,50 @@ namespace Donjon
                     case ConsoleKey.DownArrow: acted = MoveHero(Direction.S); break;
                     case ConsoleKey.LeftArrow: acted = MoveHero(Direction.W); break;
                     case ConsoleKey.RightArrow: acted = MoveHero(Direction.E); break;
+                    case ConsoleKey.P: acted = PickUp(); break;
+                    case ConsoleKey.D: acted = Drop(); break;
+                    case ConsoleKey.I: acted = Inventory(); break;
                     case ConsoleKey.Q: gameInProgress = false; break;
                 }
+                Draw();
             } while (!acted && gameInProgress);
+        }
+
+        private bool Inventory()
+        {
+            string heading = hero.Backpack.Any()
+                ? "Your backpack contains: "
+                : "Your backpack is empty";
+            log.Add(heading);
+            foreach (var item in hero.Backpack)  log.Add("   " + item.Name);
+            return false; //no cost
+        }
+
+        private bool Drop()
+        {
+            if (hero.Backpack.Any())
+            {
+                var item = hero.Backpack.First();
+                hero.Backpack.Remove(item);
+                map.Cell(hero.Position).Items.Add(item);
+                log.Add($"You dropped the {item.Name}");
+            }
+            return false;
+        }
+
+        private bool PickUp()
+        {
+            var cell = map.Cell(hero.Position);
+            var items = cell.Items;
+            if (items.Any() && !hero.Backpack.IsFull)
+            {
+                var item = items[0];
+                hero.Backpack.Add(items[0]);
+                items.Remove(items[0]);
+                log.Add($"You picked up the {item.Name}");
+                return true;
+            }
+            return false;
         }
 
         private bool MoveHero(Position direction)
@@ -73,7 +119,17 @@ namespace Donjon
             {
                 return hero.Attack(destination.Creature);
             }
-            return map.Move(origin, destination);
+            bool moved = map.Move(origin, destination);
+            if (moved)
+            {
+                var items = map.Cell(hero.Position).Items;
+                if (items.Any())
+                {
+                    var stuff = string.Join(", ", items.Select(i => i.Name));
+                    log.Add($"You see: {stuff}");
+                }
+            }
+            return moved;
         }
 
         private void Draw()
@@ -85,9 +141,9 @@ namespace Donjon
             {
                 for (int x = 0; x < map.Width; x++)
                 {
-                    var cell = map.Cell(x, y);
-                    Console.ForegroundColor = cell.Color;
-                    Console.Write(" " + cell.Symbol);
+                    IDrawable appearance = map.Cell(x, y).Appearance;
+                    Console.ForegroundColor = appearance.Color;
+                    Console.Write(" " + appearance.Symbol);
                 }
                 Console.WriteLine();
             }
@@ -97,6 +153,8 @@ namespace Donjon
             var linesToShow = Console.WindowHeight - Console.CursorTop - 2;
             foreach (string line in log.GetLast(linesToShow))
             {
+                Console.Write(new string(' ', Console.WindowWidth -1));
+                Console.CursorLeft = 0;
                 Console.WriteLine(line);
             }
         }
@@ -112,6 +170,9 @@ namespace Donjon
             map.Place(new Goblin(), map.Cell(5, 7));
             map.Place(new Goblin(), map.Cell(7, 5));
             map.Place(new Goblin(), map.Cell(3, 3));
+            map.Place(Item.Coin(), map.Cell(2, 2));
+            map.Place(Item.Coin(), map.Cell(2, 3));
+            map.Place(Item.Coin(), map.Cell(3, 3));
         }
     }
 }
