@@ -9,6 +9,7 @@ namespace Donjon.Utilities
 {
     public class LimitedList<T> : IEnumerable<T>
     {
+        //
         //hepp
         private List<T> list; // Constructorn does the init
 
